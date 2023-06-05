@@ -1,0 +1,42 @@
+{%  extends 'Guest/HeaderShop.html' %}
+{% load static %}
+
+{% block content %}
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    <table align="center" border=1 style="border-collapse: collapse;margin-top: 50px;" cellpadding=15>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="txtName" value={{shop.ShopName}}></td>
+        </tr>
+        <tr>
+            <td>Contact</td>
+            <td><input type="text" name="txtPhone" value={{shop.ShopContact}}></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" name="txtEmail" value={{shop.ShopEmail}}></td>
+        </tr>
+        
+        <tr>
+            <td>Licence No.</td>
+            <td><input type="text" name="txtlcnsnum" value={{shop.ShopLicencenumber}}></td>
+        </tr>
+        <tr>
+            <td>Proof</td>
+            <td><img src="{{shop.ShopProof.url}}" alt="" width="100" height="100"> <input type="file" name="filename"/></td>
+            
+        </tr>
+        
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="btnSave" value="Update" class="btn btn-secondary"></td>
+        </tr>
+    </table>
+        </form>
+
+        <br><br><br><br><br><br>
+    
+        {%  include 'Guest/Footer.html' %}
+
+        {% endblock %}
+        

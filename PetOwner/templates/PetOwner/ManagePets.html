@@ -1,0 +1,195 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+
+
+    <form action="" method="POST" enctype="multipart/form-data" id="PetManageForm" data-subcategory-url="{% url 'PetOwner:ajax_load_subcategory' %}">
+        {% csrf_token %}
+    <table align="center" border=1 style="border-collapse: collapse;margin-top: 50px;" cellpadding=15>
+        <tr>
+            <td>Pet Category</td>
+            <td><select  id="slctPetCategory" name="slctPetCategory" required>
+                <option value=""></option>
+                {% for data in petCategory %}
+                <option value="{{ data.id }}">{{ data.PetCategory }}</option>
+                {% endfor %}
+            </select></td>
+        </tr>
+        <tr>
+            <td>Sub Category</td>
+            <td><select  id="slctSubCategory" name="slctSubCategory" required>
+                
+            </select></td>
+        </tr>
+    
+    
+        <tr>
+            <td>Color</td>
+            <td><select  id="slctColor" name="slctColor" onchange="getChange(this.value)" >
+            <option value="select">....Select...</option>
+            <option value="red">red</option>
+            <option value="black">black</option>
+         
+            <option value="white">white</option>
+            <option value="creem">creem</option>
+            <option value="brown">brown</option>
+            
+            <option value="Other">Other</option>
+            
+          
+            </select>
+            <input type="text" name="color" id="color">
+            
+            </td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <input type="radio" name="rdbgender" required value="male"> Male
+                <input type="radio" name="rdbgender" value="female"> Female
+            </td>
+        </tr>
+        <tr>
+            <td>Breed</td>
+            <td>
+                <input type="radio" name="rdbBreed" required value="No" > NO
+                <input type="radio" name="rdbBreed" value="Yes"> YES
+            </td>
+        </tr>
+        <tr id="bd1">
+            <td>Breed Combination 1</td>
+            <td><input type="text" name="txtBC1" id="txtBC1"></td>
+        </tr>
+        <tr id="bd2">
+            <td>Breed Combination 2</td>
+            <td><input type="text" name="txtBC2" id="txtBC2"></td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td><input type="file" name="flImage" required></td>
+        </tr>
+        <tr>
+            <td>Certificate</td>
+            <td><input type="file" name="flCertificate" required></td>
+        
+        </tr>
+        <tr>
+             <td>Certificate Id</td>
+             <td><input type="text" name="txtId" required></td>
+        </tr>
+        
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="btnSave" value="Register" class="btn btn-success"></td>
+        </tr>
+    </table>  
+ </form> 
+ <br><br>
+ <hr>
+ <center><h3 class="mt-4 mb-4" style="color: rgb(31, 78, 64);">Details of Pets</h3></center>
+ <table align="center" border=1 style="border-collapse: collapse;width:90%;" cellpadding=15 >
+    <tr>
+        <th>Category</th>
+        <th>Sub Category</th>
+        <th>Gender</th>
+        <th>Color</th>
+        <th>Breed</th>
+        <th>Breed Combination-1</th>
+        <th>Breed Combination-2</th>
+        <th>Image</th>
+        <th>Certificate</th>
+        <th>Certificate Id</th>
+        
+        <th></th>
+        
+    </tr>
+    {% for data in pet %}
+    <tr>
+        <td>{{data.PetSubCategory.PetCategory}}</td>
+        <td>{{data.PetSubCategory.SubCategory}}</td>
+        <td>{{data.PetGender}}</td>
+        <td>{{data.Petcolor}}</td>
+        <td>{{data.PetBreed}}</td>
+        <td>{{data.PetBreedCombination1}}</td>
+        <td>{{data.PetBreedCombination2}}</td>
+        <td><img src="{{ data.PetImage.url }}" alt="" width="120" height="120"></td>
+        <td><img src="{{ data.PetCertificate.url }}" alt="" width="120" height="120"></td>
+        <td>{{data.PetCertificateId}}</td>
+       
+        <td><a href="{% url 'PetOwner:petowner-petgallary' data.id %}" class="btn btn-outline-success">More Images</a></td>
+        
+    </tr>
+    {% endfor %}
+    </table>
+
+<br><br><br><br><br>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script>
+$("#slctPetCategory").change(function () {
+var url = $("#PetManageForm").attr("data-subcategory-url");  
+var PetCatgoryId = $(this).val(); 
+  $.ajax({                      
+    url: url,                    
+    data: {
+      'petcategory': PetCatgoryId     
+    },
+    success: function (data) {  
+      $("#slctSubCategory").html(data);  
+    }
+  });
+
+});
+
+$('input:radio[name="rdbBreed"]').change(
+    function(){
+        if ($(this).is(':checked') && $(this).val() == 'No') {
+            
+            $("#bd1").hide();
+            $("#bd2").hide();
+
+        }
+        else
+        {
+            
+            $("#bd1").show();
+            $("#bd2").show();
+        }
+    });
+
+
+
+$(document).ready(function(){
+		
+        $("#color").hide();
+    
+        
+    });
+
+
+    
+function getChange(pid)
+ {
+   
+
+    if (pid == "Other")
+    {
+        document.getElementById("color").style.display = '';
+                                   
+    }
+    else 
+    {
+        document.getElementById("color").style.display = 'none';
+    }
+
+     }
+
+
+
+</script>
+
+ 
+{%  include 'Guest/Footer.html' %}
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+
+        <form action="" method="POST" id="PetSearchForm" data-subcategory-url="{% url 'PetOwner:ajax_load_subcategory' %}">
+            {% csrf_token %}
+            <table align="center" style="border-collapse: collapse;margin-top: 60px;margin-bottom: 60px;" cellpadding=15>
+                <tr> 
+                    <td><b>Pet Category :</b> </td>
+                    <td><select  id="slctPetCategory" name="slctPetCategory" required>
+                        <option value="">----SELECT----</option>
+                        {% for data in categoryData %}
+                        <option value="{{ data.id }}">{{ data.PetCategory }}</option>
+                        {% endfor %}
+                    </select></td>
+                
+                    <td><b>Sub Category :</b> </td>
+                    <td><select  id="slctpetsub" name="slctpetsub" required>
+                    
+                    <td> </td>
+                    
+                    <td><input type="submit" name="btnSave" value="Search" class="btn btn-success"></td>
+                </select></td>
+                </tr>
+                
+                    
+                
+            </table>
+        </form>
+        <hr>
+        <table align="center" border=1 style="border-collapse: collapse;margin-top: 50px;" cellpadding=15>
+            <tr>
+                <th>Image</th>
+                <th>Sub Category</th>
+                <th>Color</th>
+                <th></th>
+            </tr>
+        {% for data in pets %}
+            <tr>
+                <td><img src="{{data.PetSaleImage.url}}" alt="" width="150" height="150"></td>
+                <td>{{data.PetSaleSubCategory.SubCategory}}</td>
+                <td>{{data.PetSaleColor}}</td>
+                <td><a href="{% url 'PetOwner:ViewPetDetails' data.id %}" class="btn btn-outline-success">View More</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+<br><br><br><br><br><br><br><br><br><br>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script>
+$("#slctPetCategory").change(function () {
+var url = $("#PetSearchForm").attr("data-subcategory-url");  
+var PetCatgoryId = $(this).val(); 
+  $.ajax({                      
+    url: url,                    
+    data: {
+      'petcategory': PetCatgoryId     
+    },
+    success: function (data) {  
+      $("#slctpetsub").html(data);  
+    }
+  });
+
+});
+
+</script>
+{%  include 'Guest/Footer.html' %}
+
+{% endblock %}

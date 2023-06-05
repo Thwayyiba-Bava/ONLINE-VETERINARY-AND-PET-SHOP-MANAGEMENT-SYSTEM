@@ -1,0 +1,49 @@
+{%  extends 'Guest/HeaderAdmin.html' %}
+    {% load static %}
+
+    {% block content %}
+
+    <center><h3 class="mt-5 mb-4" style="color: rgb(31, 78, 64);">Pet Purchased</h3></center>
+    <table><table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            
+            <th>Pet Sub Category</th>
+            <th>No.of Pets</th>
+            <th>Date</th>
+            <th>Pet Owner Details</th>
+            <th>Shop Details</th>
+            <th>Rate</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        {% for data in petpurchase %}
+        <tr>
+            <td>{{data.Pet.PetSaleSubCategory.SubCategory}}</td>
+            <td>{{data.No_ofPets}}</td>
+            <td>{{data.Date}}</td>
+            <td>{{data.PetOwner}} <br>
+                {{data.PetOwner.CustomerContact}}<br>
+                {{data.PetOwner.CustomerEmail}}<br>
+                {{data.PetOwner.CustomerPlace}} <br>
+            </td>
+            <td>{{data.Pet.Shop.ShopName}} <br>{{data.Pet.Shop.ShopContact}}<br>
+                {{data.Pet.Shop.ShopEmail}}<br>{{data.Pet.Shop.ShopPlace}}</td>
+            
+            <td>{{data.Pet.PetSaleRate}}</td>
+            {% if data.Status == 0 %}
+            <td style="color:rgb(218, 14, 14)">Not Delivered</td>
+            {% elif data.Status == 1 %}
+            <td style="color:rgb(8, 8, 212)">Delivered</td>
+            {% elif data.Status == 2 %}
+            <td>Received</td>
+            {% endif %}
+            
+        </tr>
+        {% endfor %}
+
+    </table>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br>
+    
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %} 

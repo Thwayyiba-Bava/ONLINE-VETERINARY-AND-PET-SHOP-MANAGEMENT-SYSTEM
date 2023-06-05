@@ -1,0 +1,48 @@
+{%  extends 'Guest/HeaderShop.html' %}
+{% load static %}
+
+{% block content %}
+<center><h3 class="mt-5 mb-4" style="color: rgb(31, 78, 64);">Purchased Products</h3></center>
+    <table><table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            
+            <th>Product Sub Category</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Pet Owner</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        {% for data in pdtpurchase %}
+        <tr>
+            <td>{{data.Product.ProductProductsubCategory.ProductsubCategory}}</td>
+            <td>{{data.quantity}}</td>
+            <td>{{data.Date}}</td>
+            <td>{{data.PetOwner}},
+                {{data.PetOwner.CustomerContact}},
+                {{data.PetOwner.CustomerEmail}},
+                {{data.PetOwner.CustomerPlace}}
+            </td>
+            {% if data.Status == 0 %}
+            <td>Not Delivered</td>
+            <td><a href="{% url 'ShopOwners:proceedProducttDelivery' data.id %}" class="btn btn-outline-success">Proceed Delivery</a> </td>
+            {% elif data.Status == 1 %}
+            <td>Delivered</td>
+            {% elif data.Status == 2 %}
+            <td>Customer Received</td>
+            {% endif %}
+
+            
+               
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %}
+    

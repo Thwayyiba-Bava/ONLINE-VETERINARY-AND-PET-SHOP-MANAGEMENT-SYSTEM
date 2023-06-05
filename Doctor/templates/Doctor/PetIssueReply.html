@@ -1,0 +1,36 @@
+{%  extends 'Guest/HeaderDoctor.html' %}
+    {% load static %}
+
+    {% block content %}
+    <center><div style="border: 1px solid black;width: 40%; margin-top: 50px;">
+    <form action="" method="post">
+        {% csrf_token %}
+        <table cellpadding=15px align="center">
+            <tr>
+                <td><b> Message</b></td>
+                <td><input type="text" name="message"></td>
+            </tr>
+            <tr>
+                <td><b>Description</b> </td>
+                <td><textarea name="desc"  cols="30" rows="8" required></textarea></td>
+            </tr>
+            <tr>
+                <td><b>Date</b>  <br> <input type="date" name="txtdate"> </td>
+                
+                <td><b>Time</b>  <br> <input type="text" name="txttime"></td>
+            </tr>
+            <tr>
+                <td><b>Meeting Code</b> </td>
+                <td><input type="text" name="meetcode"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><button type="submit" name="btnsub" class="btn btn-success">Send</button></td>
+            </tr>
+        </table>
+    </form>
+</div></center> 
+
+<br><br><br><br><br>
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %} 

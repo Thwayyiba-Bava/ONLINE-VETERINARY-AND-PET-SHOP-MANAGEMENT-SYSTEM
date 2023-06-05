@@ -1,0 +1,66 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+    <table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            
+            <td>Complaint Type</td>
+            <td><select  id="compltype" name="compltype" required>
+                <option value="">----SELECT----</option>
+                {% for data in compltypes %}
+                <option value="{{ data.id }}">{{ data }}</option>
+                {% endfor %}
+            </select></td>
+        </tr>
+        <tr>
+            <td>Complaint</td>
+            <td><textarea name="complaint" id="" cols="20" rows="8" required></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><button type="submit" name="btnsub" class="btn btn-success">Send</button></td>
+        </tr>
+    </table>
+    </form>
+    <br>
+    <hr>
+    <center><h3 class="mt-4 mb-4" style="color: rgb(31, 78, 64);">Complaints Sended</h3></center>
+    <table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            
+            <th>Complaint Type</th>
+            <th>Complaint</th>
+            <th>Date</th>
+            <th>Reply</th>
+            
+            
+        </tr>
+        {% for data in complaints %}
+        <tr>
+            <td>{{data.ComplaintType}}</td>
+            <td>{{data.ComplaintData}}</td>
+            <td>{{data.Date}}</td>
+           
+            {% if data.Status == 0 %}
+            <td style="color:rgb(202, 29, 29)">Not checked</td>
+            
+            {% elif data.Status == 1 %}
+            <td>{{data.Reply}}</td>
+            
+            {% endif %}
+
+            
+               
+
+        </tr>
+        {% endfor %}
+
+    </table>
+    <br><br><br><br><br><br><br><br>
+    
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %}
+    

@@ -1,0 +1,38 @@
+{%  extends 'Guest/HeaderDoctor.html' %}
+    {% load static %}
+
+    {% block content %}
+    <center><h3 class="mt-5 mb-4" style="color: rgb(31, 78, 64);">Pet Issues</h3></center>
+    <table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            <th>Issues</th>
+            <th>Pet</th>
+            <th>Pet Certificate</th>
+            <th>Pet Owner</th>
+            <th>Date</th>
+            <th>Reply</th>
+        </tr>
+        {% for data in issues %}
+        <tr>
+            <td>{{data.Disease}}</td>
+            <td>{{data.Pet.PetSubCategory.PetCategory}} - {{data.Pet.PetSubCategory}}</td>
+            <td><img src="{{ data.Pet.PetCertificate.url }}" width="120" height="120"></td>
+            
+            <td>{{data.PetOwner.CustomerName}} <br>
+                {{data.PetOwner.CustomerContact}} <br>
+                {{data.PetOwner.CustomerEmail}} <br>
+
+            </td>
+            <td>{{data.Date}}</td>  
+            {% if data.Status == True %}
+                <td>Replied</td>
+            {% else %}
+                <td><a href="{% url 'Doctor:Petissuereply' data.id %}" class="btn btn-outline-success">Conduct Meeting</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>   
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %} 

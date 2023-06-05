@@ -1,0 +1,201 @@
+{%  extends 'Guest/HeaderShop.html' %}
+{% load static %}
+
+{% block content %}
+    <form action="" method="POST" enctype="multipart/form-data" id="PetsaleManageForm" data-subcategory-url="{% url 'PetOwner:ajax_load_subcategory' %}">
+        {% csrf_token %}
+    <table align="center" border=1 style="border-collapse: collapse;margin-top: 50px;" cellpadding=15>
+        <tr>
+            <td>Pet Category</td>
+            <td><select  id="slctPetCategory" name="slctPetCategory" required>
+                <option value="">----SELECT----</option>
+                {% for data in petCategory %}
+                <option value="{{ data.id }}">{{ data.PetCategory }}</option>
+                {% endfor %}
+            </select></td>
+        </tr>
+        <tr>
+            <td>Sub Category</td>
+            <td><select  id="slctSubCategory" name="slctSubCategory" required>
+               
+            </select></td>
+        </tr>
+    
+    
+        <tr>
+            <td>Color</td>
+            <td> <select  id="slctColor" name="slctColor" onchange="getChange(this.value)">
+                <option value="select">....Select...</option>
+                <option value="red">red</option>
+                <option value="black">black</option>
+             
+                <option value="white">white</option>
+                <option value="creem">creem</option>
+                <option value="brown">brown</option>
+                
+                <option value="Other">Other</option>
+                
+              
+                </select>
+                <input type="text" name="color" id="color">
+                
+            
+        
+            </select></td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <input type="radio" name="rdbgender" required value="male"> Male
+                <input type="radio" name="rdbgender" value="female"> Female
+            </td>
+        </tr>
+        <tr>
+            <td>Breed</td>
+            <td>
+                <input type="radio" name="rdbBreed" required value="No"> NO
+                <input type="radio" name="rdbBreed" value="Yes"> YES
+            </td>
+        </tr>
+        <tr id="bd1">
+            <td>Breed Combination 1</td>
+            <td><input type="text" name="txtBC1"></td>
+        </tr>
+        <tr id="bd2">
+            
+            <td>BreedCombination 2</td>
+            <td><input type="text" name="txtBC2"></td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td><input type="file" name="flImage" required></td>
+        </tr>
+        <tr>
+            <td>Certificate</td>
+            <td><input type="file" name="flCertificate" required></td>
+        
+        </tr>
+        <tr>
+             <td>Certificate Id</td>
+             <td><input type="text" name="txtId" required></td>
+        </tr>
+        <tr>
+            <td>Stock</td>
+            <td><input type="text" name="txtStok" required></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input type="text" name="txtprice" required></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="btnSave" value="Register" class="btn btn-success"></td>
+        </tr>
+    </table>  
+ </form> 
+ <br><br>
+ <hr>
+ <center><h3 class="mt-4 mb-4" style="color: rgb(31, 78, 64);">Details of Pets</h3></center>
+ <table align="center" border=1 style="border-collapse: collapse;width: 90%;" cellpadding=15>
+    <tr>
+        <th>Sub Category</th>
+        <th>Gender</th>
+        <th>Color</th>
+        <th>Breed</th>
+        <th>Breed Combination 1</th>
+        <th>Breed Combination 2</th>
+        <th>Image</th>
+        <th>Certificate</th>
+        <th>Certificate Id</th>
+        <th>Stock</th>
+        <th>Price</th>
+    </tr>
+    {% for data in pet %}
+    <tr>
+        <td>{{data.PetSaleSubCategory.SubCategory}}</td>
+        <td>{{data.PetSaleGender}}</td>
+        <td>{{data.PetSaleColor}}</td>
+        <td>{{data.PetSaleBreed}}</td>
+        <td>{{data.PetSaleBreedCombination1}}</td>
+        <td>{{data.PetSaleBreedCombination2}}</td>
+        <td><img src="{{ data.PetSaleImage.url }}" alt="" width="120" height="120"></td>
+        <td><img src="{{ data.PetSaleCertificate.url }}" alt="" width="120" height="120"></td>
+        <td>{{data.PetSaleCertificateId}}</td>
+        {% if data.PetSaleStock == 0 %}
+            <td>Out of Stock</td>
+        {% else %}
+            <td>{{data.PetSaleStock}}</td>
+        {% endif %}
+        <td>{{data.PetSaleRate}}</td>
+            
+    </tr>
+    {% endfor %}
+    </table>
+
+
+    <br><br><br><br><br><br>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script>
+$("#slctPetCategory").change(function () {
+var url = $("#PetsaleManageForm").attr("data-subcategory-url");  
+var PetCatgoryId = $(this).val(); 
+  $.ajax({                      
+    url: url,                    
+    data: {
+      'petcategory': PetCatgoryId     
+    },
+    success: function (data) {  
+      $("#slctSubCategory").html(data);  
+    }
+  });
+
+});
+
+$('input:radio[name="rdbBreed"]').change(
+    function(){
+        if ($(this).is(':checked') && $(this).val() == 'No') {
+            
+            $("#bd1").hide();
+            $("#bd2").hide();
+
+        }
+        else
+        {
+            
+            $("#bd1").show();
+            $("#bd2").show();
+        }
+    });
+
+    $(document).ready(function(){
+		
+        $("#color").hide();
+    
+        
+    });
+
+
+    
+function getChange(pid)
+ {
+
+
+    if (pid == "Other")
+    {
+        document.getElementById("color").style.display = '';
+                                   
+    }
+    else 
+    {
+        document.getElementById("color").style.display = 'none';
+    }
+
+     }
+
+
+    
+</script>
+{%  include 'Guest/Footer.html' %}
+
+{% endblock %}

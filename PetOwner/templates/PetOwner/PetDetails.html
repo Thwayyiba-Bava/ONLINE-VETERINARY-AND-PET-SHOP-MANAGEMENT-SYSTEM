@@ -1,0 +1,50 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+   <center> <img src="{{ pet.PetSaleImage.url }}" alt="" width="400" height="400"></center>
+   <br><br>
+    <table align="center" border=1 style="border-collapse: collapse;width:90%;" cellpadding=15>
+        <tr>
+            <th>Sub Category</th>
+            <th>Gender</th>
+            <th>Color</th>
+            <th>Breed</th>
+            <th>Breed Combination 1</th>
+            <th>Breed Combination 2</th>
+            
+            <th>Certificate</th>
+            <th>Certificate Id</th>
+            <th>Stock</th>
+            <th>Price</th>
+            <th>Shop</th>
+            
+        </tr>
+        
+        <tr>
+            <td>{{pet.PetSaleSubCategory.SubCategory}}</td>
+            <td>{{pet.PetSaleGender}}</td>
+            <td>{{pet.PetSaleColor}}</td>
+            <td>{{pet.PetSaleBreed}}</td>
+            <td>{{pet.PetSaleBreedCombination1}}</td>
+            <td>{{pet.PetSaleBreedCombination2}}</td>
+            
+            <td><img src="{{ pet.PetSaleCertificate.url }}" alt="" width="120" height="120"></td>
+            <td>{{pet.PetSaleCertificateId}}</td>
+            {% if pet.PetSaleStock == 0 %}
+            <td>Out of Stock</td>
+            {% else %}
+            <td>{{pet.PetSaleStock}}</td>
+            {% endif %}
+            
+            <td>{{pet.PetSaleRate}}</td>
+            <td>{{pet.Shop.ShopName}}</td> 
+            <td><a href="{% url 'PetOwner:Buypet' pet.id %}" class="btn btn-outline-success">Buy Now</a></td>
+        </tr>
+        
+        </table>
+        <br><br><br><br><br>
+        {%  include 'Guest/Footer.html' %}
+
+        {% endblock %}
+        

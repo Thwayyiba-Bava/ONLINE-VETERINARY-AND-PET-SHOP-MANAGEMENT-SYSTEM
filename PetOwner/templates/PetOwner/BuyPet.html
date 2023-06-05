@@ -1,0 +1,118 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    
+    $(document).ready(function(){
+    $("#carddetails").hide()
+    });
+
+
+     function myFunction() {
+        var petStock=$("#stock").val();
+        var PetPurchaseNumber = $("#petnumber").val();
+        var petPrice = $("#price").val();
+            if(PetPurchaseNumber<=petStock)
+            {
+                var totalAmount  = parseInt(PetPurchaseNumber) * parseFloat(petPrice);
+                $("#result").html(totalAmount);
+                document.getElementById("total").value=totalAmount;
+            }
+            else{
+                    $("#result").html("Out of Stock");
+                }   
+        
+        }  
+
+
+    function myPurchase(){
+        var stock=$("#stock").val();
+        var val1 = $("#petnumber").val();
+        
+    if(stock>=val1)
+       {
+        
+        $("#carddetails").show();
+         
+       }
+       
+    }
+
+    
+    
+     </script>
+
+    <form action="" method='POST'>
+    {% csrf_token %}
+    <div style="display: flex; border: 1px solid blue; width:40%;margin-left: 30px;">
+    <div>
+        <img src="{{pet.PetSaleImage.url}}" alt="" width="270" height="300"> 
+    </div>
+    <div style="margin: 10px;">
+        {% if pet.PetSaleStock == 0 %}
+        <p style="color:blue;">Not Available <output id="stock" value="{{pet.PetSaleStock}}"></output></p> 
+        {% else %}
+        <p style="color:blue;">Available :  <output id="stock" value="{{pet.PetSaleStock}}">{{pet.PetSaleStock}}</output> </p>
+        {% endif %}
+       
+      <p style="color:blue;">Price : <output id="price" value="{{pet.PetSaleRate}}">{{pet.PetSaleRate}}</output> </p>  <br>
+        
+        
+            <table cellpadding=5>
+                <tr>
+                    <td>No.of Pets</td>
+                    <td><input type="number" min="1" name="petnumber" value="1" id="petnumber" required onchange="myFunction()"> </td>
+                </tr>
+                <tr>
+                    
+                    <td colspan="2">Total Price:<output id="result"  name="result" style="color: rgb(243, 39, 39);">{{pet.PetSaleRate}} </output>
+                    <input type="hidden"  name="total" id="total">
+                    </td>
+                    
+                </tr>
+                
+                <tr>
+                    <td colspan="2" align="center">
+                        <button type="button"  name="btn" id="purchase" onclick="myPurchase()">Purchase</button>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            
+                
+        
+    </div>
+    
+</div>
+<div id="carddetails" class="mt-5" style="border: 1px solid blue; width:40%;margin-left: 30px;">
+    <table cellpadding=10>
+        <tr>
+            <td>Address for Delivery :</td>
+            <td><textarea name="deladdress" id="" cols="32" rows="5"></textarea></td>
+        </tr>
+        <tr>
+            <td>CardNumber :</td>
+            <td><input type="text" id="cardno" name="cardno"></td>
+        </tr>
+        <tr>
+            <td>Expiry date : <br>
+            <input type="text" id="exp" name="exp" placeholder="MM/YY"></td>
+            <td>CVV : <br>
+            <input type="text" name="cvv" id="cvv"> </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><button type="submit" name="btnsub" class="btn btn-success">Buy Now</button></td>
+        </tr>
+
+    </table>
+   
+    </div>
+
+</form>
+
+<br><br><br><br><br><br>
+{%  include 'Guest/Footer.html' %}
+
+{% endblock %}

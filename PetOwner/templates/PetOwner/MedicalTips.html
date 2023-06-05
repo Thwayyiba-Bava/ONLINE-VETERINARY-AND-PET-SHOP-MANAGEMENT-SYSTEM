@@ -1,0 +1,36 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container">
+        
+        <div class="row mb-3">
+            {% for data in videos %}
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-3">
+                <a href="../../{{data.VideosVideo}}"><video width="250" height="250" controls>
+                    <source src="../../{{data.VideosVideo}}" type="video/mp4">
+                    <source src="../../{{data.VideosVideo}}" type="video/ogg">
+                    Your browser does not support the video tag.
+                </video></a> <br>
+                <h5>{{data.VideosCaption}} <span style="font-size: small;">by</span> {{data.Doctor}} </h5>
+                <p>{{data.VideoDate}}</p>
+                <p>{{data.VideosDescription}}</p>
+
+
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+    <br><br><br><br><br><br><br><br>
+ 
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %}
+    
+
+
+

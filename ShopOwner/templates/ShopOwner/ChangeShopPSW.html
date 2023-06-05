@@ -1,0 +1,64 @@
+{%  extends 'Guest/HeaderShop.html' %}
+{% load static %}
+
+{% block content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function Validate() {
+
+            function myPassword()
+            {
+            
+            var password=$("#Newpass").val();
+        if(password.length<6)
+            {  
+            alert("Password must be at least 6 characters long.");  
+            return false;  
+            }  
+        }   
+
+        var newpassword = document.getElementById("Newpass").value;
+        var confirmPassword = document.getElementById("Confpass").value;
+        var oldpassword=document.getElementById("Oldpass").value;
+        if (newpassword != confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+        return true;
+    }
+    </script>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+    <table align="center" border=1 style="border-collapse: collapse;margin-top: 60px;" cellpadding=15>
+            <tr>
+            <td>Old Password</td>
+            <td><input type="password" name="Oldpass" id="Oldpass"></td>
+            </tr>
+                <tr>
+                    <td>New Password</td>
+                    <td><input type="password" name="Newpass" id="Newpass" onblur="return myPassword();"></td>
+                </tr>
+                <tr>
+                    <td>Confirm Password</td>
+                    <td><input type="password" name="Confpass" id="Confpass"></td>
+                </tr>
+        
+                <tr>
+                    <td colspan="2" align="center"><button type="submit" class="btn btn-success" onclick="return Validate()">Save</button></td>
+                </tr>
+            
+        </table>
+        {% if error %}
+        <div class="d-flex justify-content-center mt-4">
+            <p style="font-size: 20px;color: rgb(209, 12, 12);">{{ error }}</p>
+        </div>
+        {% endif %}
+    </form>
+
+    <br><br><br><br><br><br><br><br><br>
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %}
+    

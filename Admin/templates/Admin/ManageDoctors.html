@@ -1,0 +1,161 @@
+
+    {%  extends 'Guest/HeaderAdmin.html' %}
+    {% load static %}
+    
+        
+
+    {% block content %}
+
+    
+
+    <form action="" method="POST" enctype="multipart/form-data" name="adddoctor-form" 
+    onsubmit="if(document.getElementById('qualf').checked) { return true; } else { alert('please select qualification'); return false; }">
+        {% csrf_token %}
+    <table align="center" border=1 style="border-collapse: collapse;margin-top: 50px;" cellpadding=15>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="txtName" required></td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <input type="radio" name="rdbGender" required value="Male"> Male
+                <input type="radio" name="rdbGender" value="Female"> Female
+            </td>
+        </tr>
+        <tr>
+            <td>Contact</td>
+            <td><input type="text" name="txtPhone" id="contact" required onblur="myContact()"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" name="txtEmail" required></td>
+        </tr>
+        <tr>
+            <td>District</td>
+            <td><select name="slctDistrict" id="slctDistrict" required>
+                <option value="">----SELECT----</option>
+                {% for data in disData %}
+                    <option value="{{ data.id }}">{{ data.District }}</option>
+                {% endfor %}
+            </select></td>
+        </tr>
+        <tr>
+            <td>Hospital Address</td>
+            <td><textarea name="address" id="" cols="22" rows="6" required></textarea></td>
+        </tr>
+        <tr>
+            <td>Qualification</td>
+            <td>
+                {% for data in qual %}
+                    <input type="checkbox" name="qualf" id="qualf" value="{{data.id}}"> {{data.Qualification}}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Qual.Certificate</td>
+            <td><input type="file" name="qualcertf" required></td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td><input type="file" name="flImage" required></td>
+        </tr>
+        
+        <tr>
+            <td>Username</td>
+            <td><input type="text" name="txtUsername" required></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" name="txtPassword" id="password" required onblur="myPassword()"></td>
+        </tr>
+        
+
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="btnSave" value="Register" class="btn btn-success"></td>
+        </tr>
+        </table>
+    </form>
+    <br><br>
+    <hr>
+
+    <center><h3 class="mt-5 mb-4" style="color: rgb(31, 78, 64);">Details of Veterinary Doctors</h3></center>
+    
+    <table align="center" border=1 style="border-collapse: collapse;width: 90%;" cellpadding=15>
+       <tr>
+           <th>Name</th>
+           <th>Gender</th>
+           <th>Contact</th>
+           <th>Email</th>
+           <th>Hospital Address</th>
+           <th>District</th>
+           <th>Qualification</th>
+           <th>Qual.Certificate</th>
+           <th>Photo</th>
+           <th></th>
+           
+        </tr>
+       {% for data in doctor %}
+       <tr>
+           <td>{{data.DoctorName}}</td>
+           <td>{{data.DoctorGender}}</td>
+           <td>{{data.DoctorContact}}</td>
+           <td>{{data.DoctorEmail}}</td>
+           <td>{{data.HospitalAddress}}</td>
+           <td>{{data.District}}</td>
+            <td>
+                {% for x in data.drqualification_set.all %}
+
+                    {% if forloop.last %}
+                  
+                        {{x.Qualification}}
+
+                    {% else %}
+
+                    {{x.Qualification}},
+
+                    {% endif %}
+                 
+                {% endfor %}
+            </td>
+           
+           <td><img src="{{ data.QualCertificate.url }}" alt="" width="120" height="120"></td>
+           <td><img src="{{ data.DoctorPhoto.url }}" alt="" width="120" height="120"></td>
+           <td><a href="{% url 'Admin:delete-doctor' data.id %}" class="btn btn-outline-danger"> Delete</a></td>
+       </tr>
+       {% endfor %}
+       </table>
+       <br><br><br><br><br>
+
+       <script>
+
+        function myContact()
+        {
+            var contact=$("#contact").val();
+            
+            if(contact.length<10)
+            {
+            alert("Contact must be at least 10 numbers.");  
+            return false;  
+            }
+            
+        }
+
+        function myPassword()
+        {
+            
+            var password=$("#password").val();
+        if(password.length<6)
+            {  
+            alert("Password must be at least 6 characters long.");  
+            return false;  
+            }  
+        }
+
+    
+    
+        </script>
+       
+       {%  include 'Guest/Footer.html' %}
+
+       {% endblock %} 

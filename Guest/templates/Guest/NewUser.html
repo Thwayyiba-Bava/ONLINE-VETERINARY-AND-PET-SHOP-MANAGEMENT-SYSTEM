@@ -1,0 +1,127 @@
+
+    {%  extends 'Guest/Header.html' %}
+        {% load static %}
+
+    {% block content %}
+        <form action="" method="POST" enctype="multipart/form-data" id="CustomerForm" data-places-url="{% url 'Guest:ajax_load_places' %}">
+        {% csrf_token %}
+    <table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="txtName" required></td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <input type="radio" name="rdbGender" id="rdbGender" value="Male" required>Male
+                <input type="radio" name="rdbGender" id="rdbGender" value="Female">Female
+            </td>
+        </tr>
+        <tr>
+            <td>Contact</td>
+            <td><input type="text" name="txtPhone" id="contact" required onblur="return myContact();"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" name="txtEmail" required></td>
+        </tr>
+        <tr>
+            <td>District</td>
+            <td><select name="slctDistrict" id="slctDistrict" required>
+                <option value="">----SELECT----</option>
+                {% for data in distData %}
+                <option value="{{ data.id }}">{{ data.District }}</option>
+                {% endfor %}
+            </select></td>
+        </tr>
+        <tr>
+            <td>Place</td>
+            <td><select  id="slctPlace" name="slctPlace" required>
+                <option value="">----SELECT----</option>
+                
+            </select></td>
+        </tr>
+        <tr>
+            <td>Photo</td>
+            <td><input type="file" name="photo" required> </td>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td><input type="text" name="txtUsername" required></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" name="txtPassword" id="password" required onblur="return myPassword();"></td>
+        </tr>
+        <tr>
+            <td>Confirm Password</td>
+            <td><input type="password" name="txtRepassword" required onblur="return chkpwd(this,txtPassword);"></td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="btnSave" value="Register Now" class="btn btn-success"></td>
+        </tr>
+    </table>
+        </form>
+    
+    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#slctDistrict").change(function () {
+       
+  var url = $("#CustomerForm").attr("data-places-url");  // get the url of the `load_places` view
+  var districtId = $(this).val();  // get the selected district ID from the HTML input
+       
+  $.ajax({                       // initialize an AJAX request
+    url: url,                    // set the url of the request (= localhost:8000/CableOperations/ajax/load-places/)
+    data: {
+      'district': districtId       // add the district id to the GET parameters
+    },
+    success: function (data) {   // `data` is the return of the `load_places` view function
+      $("#slctPlace").html(data);  // replace the contents of the place input with the data that came from the server
+    }
+  });
+
+});
+    
+        function myContact()
+        {
+            var contact=$("#contact").val();
+            
+            if(contact.length<10)
+            {
+            alert("Contact must be at least 10 numbers.");  
+            return false;  
+            }
+            
+        }
+
+        function myPassword()
+        {
+            
+            var password=$("#password").val();
+        if(password.length<6)
+            {  
+            alert("Password must be at least 6 characters long.");  
+            return false;  
+            }  
+        }   
+
+function chkpwd(confpass, txtpass)
+{
+	if((confpass.value)!=(txtpass.value))
+	{
+		alert("Password do not match ");
+        return false;
+	}
+    
+}
+
+
+
+</script>
+{%  include 'Guest/Footer.html' %}
+
+{% endblock %}
+

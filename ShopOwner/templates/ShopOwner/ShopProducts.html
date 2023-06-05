@@ -1,0 +1,109 @@
+{%  extends 'Guest/HeaderShop.html' %}
+{% load static %}
+
+{% block content %}
+    <form action="" method="POST" enctype="multipart/form-data" id="ProductForm" data-products-url="{% url 'ShopOwners:ajax_load_pdtsubcategory' %}">
+        {% csrf_token %}
+        <table align="center" border=1 style="border-collapse: collapse;margin-top: 50px;" cellpadding=15>
+            <tr> 
+                <td>Pet Category</td>
+                <td><select  id="slctPetCategory" name="slctPetCategory" required>
+                    <option value="">----SELECT----</option>
+                    {% for data in categoryData %}
+                    <option value="{{ data.id }}">{{ data.PetCategory }}</option>
+                    {% endfor %}
+                </select></td>
+            </tr>
+            <tr>
+                <td>Product Category</td>
+                <td><select  id="slctproduct" name="slctproduct" required>
+                <option value="">----SELECT----</option>
+                {% for data in catData %}
+                <option value="{{ data.id }}">{{ data.ProductCategory }}</option>
+                {% endfor %}
+            </select></td>
+            </tr>
+            <tr>
+                <td>Product Sub Category</td>
+                <td><select  id="slctproductsub" name="slctproductsub" required>
+                
+            </select></td>
+            </tr>
+            <tr>
+                <td>Rate</td>
+            <td><input type="text" name="rate" required></td>
+            </tr>
+            <tr>
+                <td>Stock</td>
+            <td><input type="text" name="stock" required></td>
+            </tr>
+            <tr>
+                <td>Image</td>
+                <td><input type="file" name="flImage" required></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td> <textarea name="discription" cols="25" rows="8"></textarea> </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" name="btnSave" value="Save" class="btn btn-success"></td>
+            </tr>
+        </table>
+    </form>
+    <br><br>
+    <hr>
+    <center><h3 class="mt-4 mb-4" style="color: rgb(31, 78, 64);">Details of Products</h3></center>
+    <table><table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            <th>Pet Category</th>
+            <th>Product Category</th>
+            <th>Product subCategory</th>
+            <th>Rate</th>
+            <th>Stock</th>
+            <th>Image</th>
+            <th>Description</th>
+        </tr>
+        {% for data in videos %}
+        <tr>
+            <td>{{data.ProductPetCategory}}</td>
+            <td>{{data.ProductProductsubCategory.ProductCategory}}</td>
+            <td>{{data.ProductProductsubCategory}}</td>
+            <td>{{data.ProductRate}}</td>
+            {% if data.ProductStock == 0 %}
+            <td>Out of Stock</td>
+            {% else %}
+            <td>{{data.ProductStock}}</td>
+            {% endif %}
+            <td><Img src="{{data.ProductImage.url}}" alt="" width="-120" height="120"></td>
+            <td>{{data.ProductDiscription}}</td>
+               
+        </tr>
+        {% endfor %}
+
+    </table>
+
+<br><br><br><br><br><br>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#slctproduct").change(function () {
+       
+  var url = $("#ProductForm").attr("data-products-url");  // get the url of the `load_places` view
+  var productId = $(this).val();  // get the selected district ID from the HTML input
+       
+  $.ajax({                       // initialize an AJAX request
+    url: url,                    // set the url of the request (= localhost:8000/CableOperations/ajax/load-places/)
+    data: {
+      'product': productId       // add the district id to the GET parameters
+    },
+    success: function (data) {   // `data` is the return of the `load_places` view function
+      $("#slctproductsub").html(data);  // replace the contents of the place input with the data that came from the server
+    }
+  });
+
+});
+    
+</script>
+{%  include 'Guest/Footer.html' %}
+
+{% endblock %}

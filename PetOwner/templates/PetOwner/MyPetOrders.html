@@ -1,0 +1,42 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+<center><h3 class="mt-5 mb-4" style="color: rgb(31, 78, 64);">Pets Ordered</h3></center>
+    <table><table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            
+            <th>Pet Sub Category</th>
+            <th>No.of Pets</th>
+            <th>Date</th>
+            <th>Shop Details</th>
+            <th>Rate</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        {% for data in orders %}
+        <tr>
+            <td>{{data.Pet.PetSaleSubCategory.SubCategory}}</td>
+            <td>{{data.No_ofPets}}</td>
+            <td>{{data.Date}}</td>
+            <td>{{data.Pet.Shop.ShopName}},{{data.Pet.Shop.ShopContact}},{{data.Pet.Shop.ShopEmail}},{{data.Pet.Shop.ShopPlace}}</td>
+            <td>{{data.Pet.PetSaleRate}}</td>
+            {% if data.Status == 0 %}
+            <td>Not Delivered</td>
+            {% elif data.Status == 1 %}
+            <td>Delivered</td>
+            <td><a href="{% url 'PetOwner:proceedPetDelivery' data.id %}" class="btn btn-outline-success"> Update Received</a> </td>
+            {% elif data.Status == 2 %}
+            <td>Received</td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+
+    </table>
+    
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %}
+    

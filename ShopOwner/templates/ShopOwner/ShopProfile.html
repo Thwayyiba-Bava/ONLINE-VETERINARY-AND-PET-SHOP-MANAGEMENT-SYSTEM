@@ -1,0 +1,33 @@
+{%  extends 'Guest/HeaderShop.html' %}
+{% load static %}
+
+{% block content %}
+    
+<div class="d-flex justify-content-center">
+    <div style="padding-left: 20px;">
+    
+        <h3>{{ shopdata.ShopName }} </h3>
+
+            
+    <br><br>
+
+        
+       <b>Contact :</b>  {{ shopdata.ShopContact }} <br><br>
+       <b>Place :</b>  {{ shopdata.ShopPlace }} <br><br>
+       <b>Email :</b> {{ shopdata.ShopEmail}} <br><br>
+       <b>Licence No :</b> {{ shopdata.ShopLicencenumber}} <br><br>
+       <b>Proof :</b> <img src="{{ shopdata.ShopProof.url }}" width="100" height="100"> <br><br>
+       
+    
+    <a href="{% url 'ShopOwners:shopowner-editprofile' shopdata.id %}" class="btn btn-outline-success">Edit Profile</a>
+    <a href="{% url 'ShopOwners:shopowner-changepsw' shopdata.id %}" class="btn btn-outline-success ml-3">Change password</a>
+    </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br>
+    
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %}
+    
+

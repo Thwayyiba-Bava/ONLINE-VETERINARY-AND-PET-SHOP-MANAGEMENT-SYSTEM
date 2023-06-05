@@ -1,0 +1,65 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+    
+    <div style="margin:40px; display:flex; border:1px solid blue;width:38%;">
+        <div>
+            <img src="{{ doctor.DoctorPhoto.url }}" width="250" height="260">
+            
+        </div>
+
+        <div style="padding-left: 10px; padding-top: 20px;">
+            <h3> {{doctor.DoctorName}}</h3> <br>
+            {{doctor.DoctorContact}} <br>
+            {{doctor.DoctorEmail}} <br>
+            {{doctor.HospitalAddress}} <br>
+            {% for x in doctor.drqualification_set.all %}
+
+                {% if forloop.last %}
+                     {{x.Qualification}}
+                {% else %}
+                    {{x.Qualification}},
+                {% endif %}
+            {% endfor %}
+                <br><br>
+            
+        </div>
+    </div>
+
+    
+    <hr>
+    <div class="d-flex">
+    <div style="width:32%; background-color:rgb(166, 166, 214);margin:40px; padding: 15px;">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table cellpadding=10px>
+                <tr>
+                    <td>Upload Your issue :</td>
+                    <td><textarea name="issue" id="" cols="30" rows="10"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Pets :</td>
+                    <td><select  id="slctPetCategory" name="slctPetCategory">
+                        <option value="">----SELECT----</option>
+                        {% for data in pets %}
+                        <option value="{{ data.id }}">{{ data.PetSubCategory.PetCategory }}-{{ data.PetSubCategory }}</option>
+                        {% endfor %}
+                    </select></td>
+                </tr>
+               
+                <tr>
+                    <td colspan="2" align="center">
+                        <button type="submit" name="btnsub" class="btn btn-success"> Send </button>
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+    
+</div>
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %}
+    

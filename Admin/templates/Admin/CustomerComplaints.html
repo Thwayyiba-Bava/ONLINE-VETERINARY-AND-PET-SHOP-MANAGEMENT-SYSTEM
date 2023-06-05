@@ -1,0 +1,45 @@
+{%  extends 'Guest/HeaderAdmin.html' %}
+    {% load static %}
+
+    {% block content %}
+
+    <center><h3 class="mt-5 mb-4" style="color: rgb(31, 78, 64);">Customer Complaints</h3></center>
+    <table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            
+            <th>Complaint Type</th>
+            <th>Complaint</th>
+            <th>Date</th>
+            <th>Pet Owner</th>
+            <th>Reply</th>
+            
+            
+            
+        </tr>
+        {% for data in complaints %}
+        <tr>
+            <td>{{data.ComplaintType}}</td>
+            <td>{{data.ComplaintData}}</td>
+            <td>{{data.Date}}</td>
+            <td>{{data.PetOwner}} <br>
+                {{data.PetOwner.CustomerContact}} <br>
+                {{data.PetOwner.CustomerEmail}}
+                
+            </td>
+            
+            {% if data.Status == 0 %}
+            <td><a href="{% url 'Admin:customer-complaint-reply' data.id %}" class="btn btn-outline-success">Give Reply</a></td>
+            
+            {% elif data.Status == 1 %}
+            <td>{{data.Reply}}</td>    
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+
+    </table>
+    
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %} 

@@ -1,0 +1,26 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center">
+    <div style="padding-left: 20px;">
+        <h3><img src="{{ customerData.CustomerImage.url }}" width="100" height="100" style="border-radius: 50%;"> {{ customerData.CustomerName }} </h3>
+    <br><br>
+
+            <b>Gender :</b> {{ customerData.CustomerGender }} <br><br>
+           <b>Contact :</b>  {{ customerData.CustomerContact }} <br><br>
+           <b>Email :</b> {{ customerData.CustomerEmail}} <br><br>
+           <b>Place :</b> {{ customerData.CustomerPlace}} <br><br>
+           
+    <br><br>
+    <a href="{% url 'PetOwner:petowner-editprofile' customerData.id %}" class="btn btn-outline-success">Edit Profile</a>
+    <a href="{% url 'PetOwner:petowner-changepsw' customerData.id %}" class="btn btn-outline-success ml-3">Change password</a>
+</div>
+
+</div>
+    <br><br><br><br>
+    {%  include 'Guest/Footer.html' %}
+ 
+    {% endblock %}
+    

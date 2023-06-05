@@ -1,0 +1,42 @@
+{%  extends 'Guest/HeaderDoctor.html' %}
+    {% load static %}
+
+    {% block content %}
+    
+    <div class="d-flex justify-content-center">
+        <div style="padding-left: 20px;">
+        <h2> <img src="{{ doctor.DoctorPhoto.url }}" width="100" height="100" style="border-radius: 50%;">
+        {{doctor.DoctorName}}</h2> <br><br>
+        
+
+        
+           <b>Gender :</b> {{doctor.DoctorGender}} <br><br>
+           <b>Contact :</b>  {{doctor.DoctorContact}} <br><br>
+           <b>Email :</b> {{doctor.DoctorEmail}} <br><br>
+           <b>District :</b>{{doctor.District}} <br><br>
+           <b>HospitalAddress :</b> {{doctor.HospitalAddress}} <br><br>
+            
+           <b>Qualification :</b> {% for x in doctor.drqualification_set.all %}
+
+                            {% if forloop.last %}
+                             {{x.Qualification}}
+
+                             {% else %}
+                             {{x.Qualification}},
+
+                             {% endif %}
+
+                            {% endfor %}
+                             <br><br>
+            <b>Qual.Certificate :</b> <img src="{{ doctor.QualCertificate.url }}" alt="" width="120" height="120"><br><br>
+            
+            <a href="{% url 'Doctor:edit-doctorprofile' doctor.id %}" class="btn btn-outline-success">Edit Profile</a>
+            <a href="{% url 'Doctor:change-doctorpassword' doctor.id%}" class="ml-4 btn btn-outline-success">Change password</a>
+        </div>
+    </div>
+    
+    <br><br><br><br>
+    
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %} 

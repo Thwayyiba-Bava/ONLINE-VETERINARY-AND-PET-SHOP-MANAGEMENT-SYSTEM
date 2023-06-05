@@ -1,0 +1,52 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+        <form action="" method="POST" >
+            {% csrf_token %}
+            <table align="center" style="border-collapse: collapse;margin-bottom: 60px;margin-top: 30px;" cellpadding=20>
+                <tr>
+                    <td><b>District :</b> </td>
+                    <td><select  id="slctDistrict" name="slctDistrict">
+                        <option value="">----SELECT----</option>
+                        {% for data in district %}
+                        <option value="{{ data.id }}">{{ data.District }}</option>
+                        {% endfor %}
+                    </select></td>
+                
+                    <td> </td>
+                
+                    <td><input type="submit" name="btnSave" value="Search" class="btn btn-sm btn-success"></td>
+
+                </tr>
+                
+            </table>
+        </form>
+        <hr>
+        <table align="center" border=1 style="border-collapse: collapse;margin-top: 30px;margin-bottom: 20px;" cellpadding=15>
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Hospital Address</th>
+                <th>Photo</th>
+                <th></th>
+            </tr>
+            {% for data in doctors %}
+            <tr>
+                <td>{{data.DoctorName}}</td>
+                <td>{{data.DoctorContact}} <br><br>
+                    {{data.DoctorEmail}}</td>
+                <td>{{data.HospitalAddress}}</td>
+                <td><img src="{{ data.DoctorPhoto.url }}" width="150" height="150"></td>
+                <td><a href="{% url 'PetOwner:contact-doctor' data.id %}" class="btn btn-outline-success">Book Now</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <br><br><br><br><br><br><br><br><br>
+            
+        {%  include 'Guest/Footer.html' %}
+
+        {% endblock %}
+        
+

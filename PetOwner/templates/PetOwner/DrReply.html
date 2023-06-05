@@ -1,0 +1,40 @@
+{%  extends 'Guest/HeaderOwner.html' %}
+{% load static %}
+
+{% block content %}
+<center><h3 class="mt-5 mb-4" style="color: rgb(31, 78, 64);">Doctor Message</h3></center>
+
+
+    <table align="center"  cellpadding=15>
+        <tr>
+            <td><b>Message</b> </td>
+            
+            <td>{{issue.DrMessage}}</td>
+        </tr>
+        <tr>
+            <td><b>Description</b> </td>
+            
+            <td>{{issue.DrDesc}}</td>
+        </tr>
+        <tr>
+            <td><b>Date</b> </td>
+            
+            <td>{{issue.DrDate}}</td>
+        </tr>
+        <tr>
+            <td><b>Time</b> </td>
+            <td>{{issue.DrTime}}</td>
+        </tr>
+            
+        <tr>
+            <td><b>Meeting Code</b> </td>
+            <td>{{issue.DrMeetingCode}} </td>
+        </tr>
+        
+    </table>   
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br>
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %}
+    

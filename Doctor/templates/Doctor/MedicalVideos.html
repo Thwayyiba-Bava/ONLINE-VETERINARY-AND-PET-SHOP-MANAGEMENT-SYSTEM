@@ -1,0 +1,57 @@
+{%  extends 'Guest/HeaderDoctor.html' %}
+    {% load static %}
+
+    {% block content %}
+    
+    
+    <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table align="center" border=1 style="border-collapse: collapse;margin-top: 50px;" cellpadding=15>
+        <tr>
+            <td>Caption</td>
+            <td><input type="text" name="txtCaption" required></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><textarea name="txtDis"  cols="22" rows="6"></textarea></td>
+        </tr>
+        <tr>
+            <td>Video</td>
+            <td><input type="file" name="flVideo"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="btnSave" class="btn btn-success" value="Upload"></td>
+        </tr>
+    </table>
+    </form> 
+    <br><br>
+    <hr>
+    <center><h3 class="mt-4 mb-4" style="color: rgb(31, 78, 64);">Medical Videos Uploaded</h3></center>
+    <table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            <th>Caption</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Doctor</th>
+            <th>Video</th>
+        </tr>
+        {% for data in videos %}
+        <tr>
+            <td>{{data.VideosCaption}}</td>
+            <td>{{data.VideosDescription}}</td>
+            
+            <td>{{data.VideoDate}}</td>
+            <td>{{data.Doctor.DoctorName}}</td>  
+            <td><a href="../../{{data.VideosVideo}}"><video width="200" height="150" controls>
+                <source src="../../{{data.VideosVideo}}" type="video/mp4">
+                <source src="../../{{data.VideosVideo}}" type="video/ogg">
+                Your browser does not support the video tag.
+            </video></a> </td>  
+        </tr>
+        {% endfor %}
+    </table>   
+        
+    <br><br><br><br><br>
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %} 

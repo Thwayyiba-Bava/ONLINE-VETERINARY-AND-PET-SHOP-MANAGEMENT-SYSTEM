@@ -1,0 +1,50 @@
+{%  extends 'Guest/HeaderAdmin.html' %}
+    {% load static %}
+
+    {% block content %}
+
+    <center><h3 class="mt-5 mb-4" style="color: rgb(31, 78, 64);">Product Purchased</h3></center>
+    <table><table align="center" border=1 style="border-collapse: collapse;" cellpadding=15>
+        <tr>
+            
+            <th>Product Sub Category</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Rate</th>
+            <th>Pet Owner</th>
+            <th>Shop Details</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        {% for data in pdtpurchase %}
+        <tr>
+            <td>{{data.Product.ProductProductsubCategory.ProductsubCategory}}</td>
+            <td>{{data.quantity}}</td>
+            <td>{{data.Date}}</td>
+            <td>{{data.Product.ProductRate}}</td>
+            <td>{{data.PetOwner}} <br>
+                {{data.PetOwner.CustomerContact}} <br>
+                {{data.PetOwner.CustomerEmail}} <br>
+                {{data.PetOwner.CustomerPlace}}
+            </td>
+            <td>{{data.Product.Shop.ShopName}} <br>{{data.Product.Shop.ShopContact}} <br>
+                {{data.Product.Shop.ShopEmail}} <br>{{data.Product.Shop.ShopPlace}}</td>
+            
+            {% if data.Status == 0 %}
+            <td style="color: rgb(211, 9, 9);">Not Delivered</td>
+            {% elif data.Status == 1 %}
+            <td style="color: rgb(15, 15, 201);">Delivered</td>
+            
+            {% elif data.Status == 2 %}
+            <td>Received</td>
+            {% endif %}
+            
+        </tr>
+        {% endfor %}
+
+    </table>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br>
+    
+    {%  include 'Guest/Footer.html' %}
+
+    {% endblock %} 
